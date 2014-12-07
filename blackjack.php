@@ -1,19 +1,24 @@
 <?php
 	//blackjack game
 	//4 different suits of cards - spade, heart, club, diamonds
-	$suits = ['Spade','Heart','Club','Diamond'];
+	$suits = ['S','H','C','D'];
 
 	//EACH SUIT has  are A(1),2,3,4,5,6,7,8,9,10 && (J,Q,K,A)
-	$deck1 = ['A',2,3,4,5,6,7,8,9,10,'J','Q','K'];
+	$deck1 = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
 	//The total count of cards in each deck is 13 and 4 suits = 52cards
-	print_r($suits);
-	print_r($deck1);
+
+	foreach ($deck1 as $value) {
+		foreach ($suits as $suit) {
+		
+		}
+		var_dump($suits);	
+	}
 
 	//Build a deck of cards
 	function buildDeck($suits,$deck1){
 		
+		
 	}
-	
 	//Player is given 1000 Chips
 	$chipTotal = 1000;
 	//if Player chips are less than 1 
