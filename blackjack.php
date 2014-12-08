@@ -2,23 +2,32 @@
 	//blackjack game
 	//4 different suits of cards - spade, heart, club, diamonds
 	$suits = ['S','H','C','D'];
-
+	
 	//EACH SUIT has  are A(1),2,3,4,5,6,7,8,9,10 && (J,Q,K,A)
 	$deck1 = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
 	//The total count of cards in each deck is 13 and 4 suits = 52cards
 
-	foreach ($deck1 as $value) {
-		foreach ($suits as $suit) {
-		
-		}
-		var_dump($suits);	
-	}
+	 $cards = buildDeck($suits,$deck1);
+	
 
 	//Build a deck of cards
 	function buildDeck($suits,$deck1){
+		foreach ($deck1 as $value) {
+			
+				foreach ($suits as $suit) {
+					
+					$cards = $value . $suit . PHP_EOL;
+					//echo "$cards";
+					var_dump($cards);
+				} 
+		}
 		
-		
+		return $cards;
 	}
+		
+	$test[] = explode(" ", $cards);
+
+		var_dump($test);
 	//Player is given 1000 Chips
 	$chipTotal = 1000;
 	//if Player chips are less than 1 
@@ -29,17 +38,18 @@
 	
 	//BETTING CHIPS
 	//Ask Player How many chips they want to bet
-	fwrite(STDOUT, "How many chips would you like to bet?");
+	fwrite(STDOUT, "How many chips would you like to bet?" . PHP_EOL);
 	//Player will enter in amount of chips
 	//make variable that is amount of player BET
-	$player1 = trim(fgets(STDIN));
+	$player1 = trim(fgets(STDIN)) . PHP_EOL;
 	//subtract amount from total amount of chips
-	$new_chipTotal = $chipTotal - $player1;
-	echo $new_chipTotal;
+	$bet_Amount = $chipTotal - $player1;
+	echo $bet_Amount . " chips left" . PHP_EOL;
 	
-	//check if bet is lesser than 25
+	//check if bet is less than 25
 	if ($player1 < 25) {
 		echo "Min bet is 25 chips: Please enter another amount.";
+		$player1 = trim(fgets(STDIN)) . PHP_EOL;
 	}else{
 		//run the deal function
 	}
