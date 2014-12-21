@@ -1,48 +1,34 @@
 <?php
 	//blackjack game
-	//4 different suits of cards - spade, heart, club, diamonds
-	$suits = ['Spades','Hearts','Clubs','Diamonds'];
-	
-	//EACH SUIT has  are A(1),2,3,4,5,6,7,8,9,10 && (J,Q,K,A)
-	$cardNumber =  ['Ace' ,'2','3','4','5','6','7','8','9','10','Jack','Queen','King'];
-	//The total count of cards in each deck is 13 and 4 suits = 52cards
-	// $backupArray = [ 
-	// 'Ace' => ['name' => 'Ace','value' => 1],
-	// '2' => ['name' => '2','value' => 2 ],
-	// '3' => ['name' => '3','value' => 3],
-	// '4' => ['name' => '4','value' => 4],
-	// '5' => ['name' => '5','value' => 5],
-	// '6' => ['name' => '6','value' => 6],
-	// '7' => ['name' => '7','value' => 7],
-	// '8' => ['name' => '8','value' => 8],
-	// '9' => ['name' => '9','value' => 9],
-	// '10' => ['name' => '10','value' => 10],
-	// 'Jack' => ['name' => 'Jack','value' => 10],
-	// 'Queen' => ['name' => 'Queen','value' => 10],
-	// 'King' => ['name' => 'King','value' => 10]
-	// ];
-
 	//Build a deck of cards
-	function buildDeck($suits,$cardNumber){
+	function buildDeck(){
+		$suits = ['Spades','Hearts','Clubs','Diamonds'];
 		
-		foreach ($suits as $suit) {
+		//EACH SUIT has  are A(1),2,3,4,5,6,7,8,9,10 && (J,Q,K,A)
+		$cardNumber =  ['Ace','2','3','4','5','6','7','8','9','10','Jack','Queen','King'];
 			
-				foreach ($cardNumber as $value) {
-					$card = $value . " of " . $suit . PHP_EOL;
-					$deckArray[] = $card; 
-				}				
-		}	
-		return $deckArray;
+			foreach ($suits as $suit) {
+				
+					foreach ($cardNumber as $value) {
+						$deck[] = $value . " of " . $suit . PHP_EOL;	
+					}				
+			}	
+			return $deck;
 	} 
+	
 	//function HIT this function returns a card off the top off the deck when player or dealer hits  
 	function nextCard($fullDeck){
-
 		$newCard = array_pop($fullDeck);
 		return $newCard;
-
 	}
+ 	
+ 	//shuffle Deck of cards
+	$fullDeck = buildDeck();
+	
+ 	shuffle($fullDeck);
+ 	nextCard($fullDeck);
  	//function for player Action
- 	function playerAction($hit_or_stay_Answer,&$playerHand,&$fullDeck){
+ 	function playerAction(&$playerHand,&$fullDeck,&$test){
 		do{
 			$hit_or_stay_Question = fwrite(STDOUT, "Would you Like to (H)it or (S)tay?" . PHP_EOL);
 			$hit_or_stay_Answer = strtoupper(trim(fgets(STDIN)));
@@ -53,41 +39,123 @@
 					//adds the new card to  player hand 
 					$playerHand .= $playerHits;//push last card into the array
 					echo "Your new hand " . PHP_EOL .  $playerHand . PHP_EOL;
+					echo "total is " . $test . PHP_EOL;
 				}
 				elseif ($hit_or_stay_Answer == 'S') {
 					 echo "You decided to stay. Your hand is " . PHP_EOL . $playerHand . PHP_EOL;
+					 echo "total is " . $test;
 				}
 			} while ($hit_or_stay_Answer !== 'S');
 		}
-	//function for dealer drawing cards
-		function dealerAction(&$fullDeck,&$dealerHand){
+	//function for value to face cards
+
+		function convertFaceCards($playerHand){
+			return $playerHand;
 
 		}
- 	//shuffle Deck of cards
-	$fullDeck = buildDeck($suits,$cardNumber);
- 	shuffle($fullDeck);
- 	nextCard($fullDeck);
+
+
+
+ 	
+ 	
  	//print_r($fullDeck);//for testing purposes
 	$firstCard_Player1 = array_pop($fullDeck);
 	$firstCard_Dealer = array_pop($fullDeck);
 	$secondCard_Player1 = array_pop($fullDeck);
-	$secondCard_Dealer =array_pop($fullDeck);
+	$secondCard_Dealer = array_pop($fullDeck);
 	//print_r($fullDeck);//for testing purposes
+	
 	//Player one hand
 	echo "Your Hand" . PHP_EOL;
-	$playerHand = $firstCard_Player1 . $secondCard_Player1;
-	print_r($playerHand);
+	$playerHand = $firstCard_Player1 . " " . $secondCard_Player1;
+	$handArray = explode(" ", $playerHand);
+	var_dump($handArray);
+	//echo $playerHand;
+	foreach ($handArray as $value) {
+			
+			if (!is_numeric($value) && ($value == 'Ace' || $value == 'King' || $value == 'Queen' || $value == 'Jack')) {
+				
+					echo $value . ": this is a  face card" . PHP_EOL;
+					$value = 10;
+					echo $value . " is the new value" . PHP_EOL;
+					} elseif(is_numeric($value)) {
+					echo $value . " this is a not a face card" . PHP_EOL;
+						}
+			
+						//echo $value . " this is a reg word" . PHP_EOL;
+	}	
 
+	$newHand = $firstCard_Player1 + $secondCard_Player1;
+		echo $newHand . PHP_EOL;
+	// $test = $firstCard_Player1 + $secondCard_Player1;
+
+	// 		switch ($firstCard_Player1) 
+	// 		{
+	// 			case strpos($firstCard_Player1, 'Ace'):
+	// 				$test += 10;
+					
+	// 				break;
+	// 			case strpos($firstCard_Player1, 'King'):
+	// 				$test += 10;
+					
+	// 				break;
+	// 			case strpos($firstCard_Player1, 'Queen'):
+	// 				$test += 10;
+					
+	// 				break;
+	// 			case strpos($firstCard_Player1, 'Jack'):
+	// 				$test += 10;
+					
+	// 				break;
+	// 			default:
+	// 				$firstCard_Player1;
+	// 				break;	
+	// 		}
+	// 		switch ($secondCard_Player1) 
+	// 		{
+	// 			case strpos($secondCard_Player1, 'Ace'):
+	// 				$test += 10;
+					
+	// 				break;
+	// 			case strpos($secondCard_Player1, 'King'):
+	// 				$test += 10;
+					
+	// 				break;
+	// 			case strpos($secondCard_Player1, 'Queen'):
+	// 				$test += 10;
+					
+	// 				break;
+	// 			case strpos($secondCard_Player1, 'Jack'):
+	// 				$test += 10;
+					
+	// 				break;
+	// 			default:
+	// 				$secondCard_Player1;
+	// 				break;	
+	// 		}
+
+	//maybe make an array. read below
+	//	$playerHand[] = $firstCard_Player1 . $secondCard_Player1;
+	//$test = str_replace('Jack', 10, $playerHand);
+	// print_r($playerHand);
+	// var_dump($playerHand);
+	// print_r($test);
+
+	
+	//print_r($test);
+ 	
 	//dealer hand
 	echo PHP_EOL . "Dealers hand" . PHP_EOL ;
 	$dealerHand = $firstCard_Dealer . $secondCard_Dealer ;
 	print_r($dealerHand);
 	//Ask player if they want to hit or stay
-	//print_r($playerHand);
-	//print_r($fullDeck);
-	//DEALING CARDS
-	playerAction($hit_or_stay_Answer,$playerHand,$fullDeck);
 
+ 	
+	
+	
+	playerAction($playerHand,$fullDeck,$test);
+	convertFaceCards($firstCard_Player1);
+	
 	
 	
 	//the players are dealt 2 cards face up
@@ -100,7 +168,7 @@
 	//print_r($fullDeck);//for testing
 	//array_pop($fullDeck);
 	
-	//print_r($fullDeck); 
+	print_r($fullDeck); 
 
 
 	//print_r($fullDeck);//for testing
